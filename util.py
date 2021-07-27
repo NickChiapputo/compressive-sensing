@@ -36,17 +36,36 @@ def block_indexes( width, height, rows, cols ):
 
 
 def create_mask( image, ri ):
-	global b
-
 	# Extract a small sample of the signal.
-	b = image.T.flat[ ri ]
+	y = image.T.flat[ ri ]
 
 	# Create a blank white image and add in the randomly sampled pixels.
 	Xm = 255 * np.ones( image.shape )
 	Xm.T.flat[ ri ] = image.T.flat[ ri ]
 
 	# Return the random indices, subsampled image, and the mask for visualization
-	return b, Xm
+	return y, Xm
+
+
+def randomly_sample( img, total_samples, sample_percentage ):
+	# Randomly select indices from the image and calculate the
+	# number of measurements taken (M)
+	ri = generate_random_samples( total_samples, sample_percentage )
+	n_samples = len( ri )
+
+
+	# Calculate the number of channels in the image (e.g., 3 for RGB image)
+	_, _, n_channels = img.shape
+
+	
+	# Calculate the measurement vector and mask matrix for each channel of the image.
+	y = np.zeros( ( n_samples, n_channels ), dtype = 'uint8' )
+	mask = np.zeros( img.shape, dtype = 'uint8' )
+	for j in range( n_channels ):
+		y[ :, j ], mask[ :, :, j ] = create_mask( img[ :, :, j ], ri )
+
+
+	return ri, y, mask
 
 
 def read_image( image_path, as_gray=False ):

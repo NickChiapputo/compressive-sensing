@@ -17,6 +17,7 @@ from util import create_mask
 from util import read_image
 
 from basis_pursuit.owl_qn import owl_qn_cs
+from matching_pursuit.omp import omp_cs
 
 
 def compression( image_path, save_folder, sample_percentages ):
@@ -125,14 +126,14 @@ if __name__ == '__main__':
 	# Define image options and select one.
 	image_paths = [ 'img/lena.png', 'img/mountain.jpeg', 'img/mandrill.png', 'img/neuschwanstein.jpg' ]
 	save_folders = [ 'lena/', 'mountain/', 'mandrill/', 'neuschwanstein/' ]
-	image_selection = 0
+	image_selection = 3
 	image_path = image_paths[ image_selection ]
 	save_folder = save_folders[ image_selection ]
 
 
 	# Percentage of pixel samples to keep [0.0, 1.0].
 	sample_percentages = [ 1.00, 0.90, 0.80, 0.70, 0.60, 0.50, 0.40, 0.30, 0.20, 0.10, 0.01 ] 
-
+	sample_percentages = [ 0.50 ]
 
 	# Flag to select upscaling or compressing implementation.
 	upscaling = 0
@@ -142,7 +143,11 @@ if __name__ == '__main__':
 	# Key:
 	#	Basis Pursuit (OWL-QN)			: 0
 	#	Orthogonal Matching Pursuit 	: 1 
-	alg_select = 0
+	alg_select = 1
+
+
+	# Read in the image and calculate its size.
+	img, rows, cols, n_channels = read_image( image_path )
 
 
 	if( alg_select == 0 ):
@@ -151,6 +156,6 @@ if __name__ == '__main__':
 		else:
 			compression( image_path, save_folder, sample_percentages )
 	elif( alg_select == 1 ):
-		print( 'OMP not yet implemented.' )
+		omp_cs( img, rows, cols, n_channels, sample_percentages )
 	else:
 		print( f'ERROR: Invalid algorithm selected ({alg_select = }).' )
