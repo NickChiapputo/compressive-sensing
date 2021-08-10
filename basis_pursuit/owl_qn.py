@@ -37,7 +37,7 @@ def evaluate( x, g, step ):
 
 
 def progress( x, g, fx, xnrom, gnorm, step, k, ls ):
-	print( f'Iteration {k}', end = '\r' )
+	print( f'\rIteration {k}', end = '' )
 	return 0
 
 
