@@ -1,4 +1,5 @@
 import scipy.fftpack as spfft
+import scipy.ndimage as spimg
 import numpy as np
 from imageio import imread
 
@@ -68,7 +69,13 @@ def randomly_sample( img, total_samples, sample_percentage ):
 	return ri, y, mask
 
 
-def read_image( image_path, as_gray=False ):
+def read_image( image_path, as_gray=False, zoom_level=1.0 ):
 	img = imread( image_path, as_gray=as_gray )
 	ny, nx, n_channels = img.shape
-	return img, ny, nx, n_channels
+
+	img_zoom = np.zeros( ( int( ny * zoom_level ), int( nx * zoom_level ), n_channels ) )
+	for i in range( n_channels ):
+		img_zoom[ :, :, i ] = spimg.zoom( img[ :, :, i ], zoom_level )
+
+	ny, nx, n_channels = img_zoom.shape
+	return img_zoom, ny, nx, n_channels
