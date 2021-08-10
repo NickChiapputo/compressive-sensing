@@ -132,7 +132,7 @@ if __name__ == '__main__':
 
 
 	# Percentage of pixel samples to keep [0.0, 1.0].
-	sample_percentages = [ 1.00, 0.90, 0.80, 0.70, 0.60, 0.50, 0.40, 0.30, 0.20, 0.10, 0.01 ] 
+	sample_percentages = [ 1.00, 0.90, 0.80, 0.70, 0.60, 0.50, 0.40, 0.30, 0.20, 0.10, 0.01 ]
 	sample_percentages = [ 0.50 ]
 
 	# Flag to select upscaling or compressing implementation.
@@ -147,7 +147,8 @@ if __name__ == '__main__':
 
 
 	# Read in the image and calculate its size.
-	img, rows, cols, n_channels = read_image( image_path )
+	img, rows, cols, n_channels = read_image( image_path, as_gray = False, zoom_level = 0.125 )
+	print( f"Image Information:\n  Name: {save_folder[ 0:-1 ]}\n  Size: ({rows}, {cols}, {n_channels})\n\n" )
 
 
 	if( alg_select == 0 ):
