@@ -3,6 +3,6 @@ message: "If you use this software, please cite it as below."
 authors:
   - family-names: Chiapputo
     given-names: Nicholas
-title: "Compressive Sensing Using OWL-QN L1 Optimization"
+title: "Compressive Sensing"
 version: 1.0.0
 date-released: 2021-12-02
